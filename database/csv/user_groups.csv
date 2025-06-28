@@ -1,0 +1,9 @@
+id,name,description,created_at
+1,General Admin,Full system access,2025-05-09 18:07:44
+2,Sales Admin,Full access to Sales section,2025-05-09 18:07:44
+3,Prepress Admin,Full access to AW section,2025-05-09 18:07:44
+4,Planning Admin,Full access to Planning section,2025-05-09 18:07:44
+5,Salesman,Access to own sales data,2025-05-09 18:07:44
+6,Prepress Specialist,Access to own AW data,2025-05-09 18:07:44
+7,Planning Specialist,Access to own planning data,2025-05-09 18:07:44
+8,Maintenance,Full system access (maintenance),2025-06-09 09:02:24

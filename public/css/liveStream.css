@@ -1,0 +1,987 @@
+/*---------------------------------------------------------------------
+  General Styles
+---------------------------------------------------------------------*/
+body {
+    font-family: 'Arial', sans-serif; /* Example font */
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4; /* Light background */
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensure images are responsive */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Basic link styling */
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/*---------------------------------------------------------------------
+  Live Stream Section Vertical List Layout
+---------------------------------------------------------------------*/
+.job-stream-container {
+    padding: 20px;
+    background: #fff; /* White background for the container */
+    border-radius: 8px;
+    margin-top: 20px;
+    max-width: 800px; /* Optional: Set a max width for better readability */
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add shadow to container */
+}
+
+.job-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#job-search,
+
+
+.job-stream {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between job cards */
+}
+
+/* Placeholder/Loading/No Jobs Messages */
+.loading,
+.no-jobs {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+    font-style: italic;
+    transition: none; /* Ensure no transition */
+    animation: none; /* Ensure no animation */
+}
+
+/*---------------------------------------------------------------------
+  Job Card Styles
+---------------------------------------------------------------------*/
+.job-card {
+    background: #ffffffa2; /* Solid white background */
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Needed for transform animation */
+    overflow: hidden; /* Crucial for height collapse animation */
+
+    /* Initial state - important for smooth transition start */
+    opacity: 1;
+    transform: translateX(0); /* No rotation */
+    height: auto; /* Or a reasonable starting height if not using auto */
+    margin-bottom: 15px; /* Use margin for spacing */
+
+    /* Default transition for hover effect */
+    transition: transform 0.2s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-3px); /* More pronounced hover effect */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Stronger hover shadow */
+}
+
+/* Job Card Header - Adjusted for Status Label Placement */
+.job-card-header {
+    display: flex; /* Use flexbox */
+    align-items: center; /* Align items vertically in the center */
+    margin-bottom: 10px;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 8px; /* Reduced gap between title and status */
+}
+
+.job-card-header h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 18px;
+    /* Removed flex-grow and min-width to allow status to sit next to it */
+    /* Text overflow handling */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Ensure it doesn't take up excessive space */
+    max-width: calc(100% - 8px - 80px); /* Adjust max-width to leave space for status + gap (approximate status width 80px) */
+    display: inline-block; /* Treat as inline block to sit next to status */
+    vertical-align: middle; /* Align vertically with status */
+}
+
+/* Job Status Label - Adjusted for Round Corners and Placement */
+.status {
+    border-radius: 100px; /* More elliptical/pill shape */
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 12px; /* Slightly more horizontal padding */
+    color: white;
+    flex-shrink: 0;
+    display: inline-block;
+    vertical-align: middle;
+    /* Optional: add min-width if you want consistent width for all statuses */
+    min-width: 80px;
+    text-align: center;
+    text-transform: uppercase; /* Optional: make status text uppercase */
+    letter-spacing: 0.5px; /* Optional: slight letter spacing */
+}
+
+/* Job Meta (Details) */
+.job-meta {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    gap: 8px; /* Gap between lines */
+    font-size: 14px;
+    color: #555555;
+    margin: 12px 0;
+}
+
+.job-meta span {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Gap between icon/label and value */
+}
+
+.job-meta span i {
+    color: #777; /* Color for icons */
+}
+
+/* Status Label Styles */
+.status {
+    font-size: 0.8rem;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-weight: 500;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 80px;
+}
+
+.status-finance {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+}
+
+.status-tech {
+    background-color: rgba(255, 193, 7, 0.1);
+    color:  #f27907;
+    border: 1px solid  #f27907;
+}
+
+.status-ready {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: var(--success-color);
+    border: 1px solid var(--success-color);
+}
+
+.status-review {
+    background-color: rgba(23, 162, 184, 0.1);
+    color: var(--info-color);
+    border: 1px solid var(--info-color);
+}
+
+/*---------------------------------------------------------------------
+  Status Controls (Dropdown + Status Label)
+---------------------------------------------------------------------*/
+.status-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    order: 1; /* Move before the title */
+    margin-right: 8px; /* Space between status and title */
+}
+
+.status-dropdown {
+    padding: 4px 8px;
+    border-radius: 100px; /* Match the pill shape of status labels */
+    border: 1px solid #e0e0e0;
+    background-color: white;
+    font-size: 12px;
+    font-weight: 500;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 120px; /* Give it enough width */
+    appearance: none; /* Remove default dropdown styling */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 12px;
+    padding-right: 25px; /* Make room for the arrow */
+}
+
+.status-dropdown:hover {
+    border-color: #bdc3c7;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.status-dropdown:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Status label styles (enhanced to match your design) */
+.status {
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 80px;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+/* Additional status colors to match your workflow */
+.status-prepress {
+    background-color: rgba(155, 89, 182, 0.1);
+    color: #9b59b6;
+    border: 1px solid #9b59b6;
+}
+
+.status-qc {
+    background-color: rgba(46, 204, 113, 0.1);
+    color: #07840f;
+    border: 1px solid #0d3a20;
+}
+
+.status-hold {
+    background-color: rgba(243, 156, 18, 0.1);
+    color: #f39c12;
+    border: 1px solid #f39c12;
+}
+
+.status-pending {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+    border: 1px solid #3498db;
+}
+
+
+
+/*---------------------------------------------------------------------
+  Responsive Adjustments for Status Controls
+---------------------------------------------------------------------*/
+@media (max-width: 768px) {
+    .status-controls {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    .status-dropdown {
+        width: 100%;
+        min-width: 0;
+    }
+    
+    .status {
+        align-self: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .job-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .status-controls {
+        flex-direction: row;
+        width: auto;
+    }
+    
+    .status-dropdown {
+        font-size: 11px;
+        padding: 3px 6px;
+        padding-right: 22px;
+        background-size: 10px;
+    }
+    
+    .status {
+        font-size: 0.7rem;
+        padding: 3px 10px;
+    }
+}
+
+/* Job Actions (Delete Button) */
+.job-actions {
+    display: flex;
+    justify-content: flex-end; /* Align to the right */
+    margin-top: 15px; /* More space above button */
+}
+
+.delete-job-btn {
+    background: #e74c3c; /* Alizarin */
+    color: white;
+    border: none;
+    padding: 8px 15px; /* More padding */
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px; /* Slightly larger font */
+    transition: background-color 0.2s ease; /* Smooth transition for background */
+    display: flex; /* Align icon and text */
+    align-items: center;
+    gap: 5px; /* Space between icon and text */
+}
+
+.delete-job-btn:hover {
+    background: #c0392b; /* Pomegranate */
+}
+
+/* Hide icon text on smaller screens if needed */
+/* @media (max-width: 400px) {
+    .delete-job-btn span {
+        display: none;
+    }
+} */
+
+
+/*---------------------------------------------------------------------
+  Delete Animation (Rotation Removed)
+---------------------------------------------------------------------*/
+/* Keyframes Animation for Deletion */
+@keyframes slideFadeOutCollapse {
+    0% {
+        opacity: 1;
+        transform: translateX(0); /* No rotation */
+        height: auto; /* Start from auto height */
+        padding-top: 15px; /* Match initial padding */
+        padding-bottom: 15px; /* Match initial padding */
+        margin-bottom: 15px; /* Match initial margin */
+        border-width: 1px; /* Match initial border */
+    }
+    70% {
+        opacity: 0.3; /* Fade out more */
+        transform: translateX(-700px); /* Slide left */
+        height: auto; /* Keep height during slide */
+        padding-top: 15px;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        border-width: 1px;
+    }
+    100% {
+        opacity: 0; /* Fully fade out */
+        transform: translateX(-200%); /* Slide further left */
+        height: 0; /* Collapse height */
+        padding-top: 0; /* Collapse padding */
+        padding-bottom: 0; /* Collapse padding */
+        margin-bottom: 0; /* Collapse margin */
+        border-width: 0; /* Collapse border */
+    }
+}
+
+/* Apply the Animation to the Deleting State */
+.job-card.deleting {
+    /* Apply the animation */
+    animation: slideFadeOutCollapse 0.3s ease-in-out forwards; /* Slightly longer duration, ease-in-out */
+
+    /* Set the final state properties explicitly as a fallback */
+    opacity: 0;
+    transform: translateX(-1000%); /* No rotation */
+    height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-width: 0;
+    overflow: hidden; /* Keep overflow hidden */
+}
+
+
+/*---------------------------------------------------------------------
+  Confirmation Dialog Styles
+---------------------------------------------------------------------*/
+.confirm-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6); /* Darker overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px); /* Optional: Blur background */
+}
+
+.confirm-box {
+    background: white;
+    padding: 25px; /* More padding */
+    border-radius: 8px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* More prominent shadow */
+}
+
+.confirm-box p {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #555;
+}
+
+.confirm-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* More space between buttons */
+    margin-top: 20px;
+}
+
+.confirm-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.confirm-button.yes {
+    background: #e74c3c; /* Red for Yes */
+    color: white;
+}
+
+.confirm-button.yes:hover {
+    background: #c0392b;
+}
+
+.confirm-button.no {
+    background: #bdc3c7; /* Light gray for No */
+    color: #333;
+}
+
+.confirm-button.no:hover {
+    background: #95a5a6;
+}
+
+
+/*---------------------------------------------------------------------
+  Notification System
+---------------------------------------------------------------------*/
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 300px;
+    z-index: 9999; /* Highest z-index */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none; /* Allows clicks to pass through when no notifications */
+}
+
+.notification {
+    padding: 14px 18px; /* More padding */
+    border-radius: 6px; /* More rounded corners */
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2); /* More prominent shadow */
+    opacity: 0;
+    transform: translateX(110%); /* Start slightly further right */
+    transition: all 0.4s ease-out; /* Slightly longer and different easing */
+    pointer-events: auto; /* Makes notification clickable */
+    font-size: 14px;
+    word-break: break-word; /* Prevent long words from overflowing */
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.notification.success {
+    background-color: #2ecc71; /* Emerald */
+    border-left: 5px solid #27ae60; /* Thicker border */
+}
+
+.notification.error {
+    background-color: #e74c3c; /* Alizarin */
+    border-left: 5px solid #c0392b; /* Thicker border */
+}
+
+
+/*---------------------------------------------------------------------
+  Responsive Adjustments
+---------------------------------------------------------------------*/
+@media (max-width: 600px) {
+    .job-stream-container {
+        padding: 15px;
+    }
+
+    .job-filters {
+        flex-direction: column;
+        gap: 15px; /* More space between stacked filters */
+    }
+
+    #job-search,
+    #status-filter {
+        font-size: 14px;
+    }
+
+    .job-card {
+        padding: 12px;
+    }
+
+    .job-card-header {
+         flex-direction: column; /* Stack title and status */
+         align-items: flex-start;
+         gap: 5px; /* Reduced gap when stacked */
+    }
+
+    .job-card-header h3 {
+        max-width: 100%; /* Allow title to take full width when stacked */
+    }
+
+    .job-meta {
+        font-size: 13px;
+        gap: 6px;
+    }
+
+    .job-meta span {
+        gap: 5px;
+    }
+
+    .delete-job-btn {
+        padding: 6px 12px;
+        font-size: 11px;
+    }
+
+    .confirm-box {
+        padding: 15px;
+        max-width: 90%;
+    }
+
+    .confirm-buttons {
+        gap: 10px;
+    }
+
+    .confirm-button {
+        padding: 8px 15px;
+        font-size: 13px;
+    }
+
+    .notification-container {
+        width: 90%;
+        right: 5%;
+        left: 5%;
+        top: 10px;
+    }
+
+    .notification {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+}
+
+/* Additional smaller screen adjustments */
+@media (max-width: 400px) {
+    .job-stream-container {
+        padding: 10px;
+    }
+
+    .job-card {
+        padding: 10px;
+    }
+
+    .job-card h3 {
+        font-size: 16px;
+    }
+
+    .job-meta {
+        font-size: 12px;
+    }
+
+    .delete-job-btn {
+        font-size: 10px;
+        padding: 5px 10px;
+    }
+}
+.job-card {
+    display: flex;
+    flex-direction: column; /* stacking card content vertically */
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  
+  /* Wrap content and buttons vertically */
+  .job-card-wrapper {
+    display: flex;
+    justify-content: space-between; /* pushes content to left and buttons to right if desired */
+    align-items: flex-start; /* align items at the top */
+    flex-direction: row; /* keep main container horizontal */
+  }
+  
+  /* Content area takes remaining space */
+  .job-card-content {
+    flex: 1;
+  }
+  
+  /* Buttons container stacked vertically */
+  .job-actions {
+    display: flex;
+    flex-direction: column; /* stack buttons vertically */
+    gap: 8px; /* spacing between buttons */
+    align-items: flex-start; /* align buttons to start (left) */
+    margin-left: 20px; /* optional spacing from content */
+  }
+  
+  /* Style buttons as needed */
+  .job-actions button {
+    min-width: 80px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  /* Default grey style for Edit and Clone buttons */
+.edit-job-btn,
+.clone-job-btn {
+  background-color: #6b6b6b; /* grey background */
+  color: #ffffff; /* text color */
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.3s, color 0.3s; /* smooth transition */
+}
+
+/* Blue background on hover */
+.edit-job-btn:hover,
+.clone-job-btn:hover {
+  background-color: #007bff; /* bootstrap blue or your preferred blue */
+  color: #fff; /* change text color to white for contrast */
+}
+
+
+
+/* =================================================*/
+
+
+/* seleced card clicked*/
+
+.job-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.job-card.selected {
+    background-color: rgb(255, 255, 255);
+    border-left: 11px solid #ff3300;
+}
+
+.job-card:hover {
+    background-color: rgba(248, 216, 173, 0.801);
+    border: 2px solid #fa3402;
+}
+
+
+/* /////////////*/
+/* Job Details Section - Light/Dark Theme Compatible */
+.job-details-section {
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--box-shadow);
+    transition: all var(--transition-speed);
+}
+
+.job-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+.job-details-header h2 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    text-align: left; /* Added left alignment */
+}
+
+.close-btn {
+    background: red;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    padding: 0 5px;
+    transition: color var(--transition-speed);
+}
+
+.close-btn:hover {
+    color: var(--secondary-color);
+}
+
+.job-details-content {
+    display: flex; /* Changed from grid to flex */
+    flex-direction: column; /* Stack items vertically */
+    gap: 6px; /* Reduced gap between items */
+    font-size: 0.85rem;
+}
+
+.job-details-row {
+    display: flex;
+    align-items: baseline; /* Align text baselines */
+}
+
+.job-details-label {
+    font-weight: bold;
+    color: var(--text-primary);
+    min-width: 120px; /* Fixed width for labels */
+    margin-right: 8px;
+    text-align: left; /* Explicit left alignment */
+
+}
+
+.job-details-value {
+    color: var(--text-secondary);
+    word-break: break-word;
+    flex: 1; /* Take remaining space */
+    text-align: left; /* Explicit left alignment */
+}
+
+/* Dark mode specific adjustments */
+.dark .job-details-label {
+    color: var(--text-light);
+}
+
+.dark .job-details-value {
+    color: var(--text-secondary);
+}
+
+.dark .job-details-section {
+    background-color: var(--bg-Card);
+    border-color: var(--stroke-Card);
+}
+
+/* status Days counter */
+.status-days {
+    font-size: 0.8rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    padding: 2px 6px;
+    margin-left: 4px;
+    color: #000000;
+    font-weight: bold;
+}
+
+/* For dark mode if needed */
+.dark .status-days {
+    background-color: rgba(0, 0, 0, 0.163);
+    color: #ffffff;
+}
+.status-menu {
+    position: absolute;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 100;
+}
+
+.status-option {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.status-option:hover {
+    background: #f5f5f5;
+}
+
+
+/* Make status look clickable */
+.status {
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+
+.status:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+/* Style the dropdown to be more compact */
+.status-dropdown-container {
+    display: inline-block;
+    margin-left: 8px;
+}
+
+.status-dropdown {
+    padding: 2px 5px;
+    font-size: 0.9em;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+}
+
+/* Status Controls Container */
+.status-controls-container {
+    display: flex;
+    align-items: center;
+    background: rgba(229, 229, 229, 0.589);
+    border: 1px solid rgba(124, 124, 124, 0.589); /* Added style and width */
+    border-radius: 20px;
+    padding: 4px 8px;
+    margin-left: 8px;
+}
+.status-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.status-dropdown-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    transition: all 0.2s;
+}
+
+.status-dropdown-toggle:hover {
+    color: #333;
+}
+
+.toggle-icon {
+    font-size: 0.7em;
+    transition: transform 0.2s;
+}
+
+.status-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    border-radius: 6px;
+    width: max-content; /* Adjust width to fit the content */
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 6px 0;
+    margin-top: 4px;
+}
+
+.status-dropdown-menu.show {
+    display: block;
+    animation: fadeIn 0.2s ease;
+}
+
+.status-dropdown-option {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    text-align: left;
+    background: rgb(255, 210, 210);;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85em;
+    color: #333;
+    transition: background-color 0.2s;
+}
+
+.status-dropdown-option:hover {
+    background-color: #f5f5f5;
+}
+
+.status-days {
+    font-size: 0.8em;
+    color: #666;
+    padding-left: 4px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* smooth refresh: */
+.job-card {
+    transition: all 0.3s ease;
+}
+
+.job-stream.refreshing .job-card {
+    opacity: 0.9;
+    filter: grayscale(10%);
+}
+
+.job-stream.refreshing {
+    pointer-events: none; /* Prevent interactions during refresh */
+}
+
+    /* filtering messages */
+    .no-jobs {
+        padding: 2rem;
+        text-align: center;
+        background: #f8f9fa;
+        border-radius: 8px;
+        margin: 1rem;
+        color: #6c757d;
+        font-size: 1.1rem;
+        border: 1px dashed #dee2e6;
+    }
+
+
+    /* Adding a visual indicator for unassigned jobs */
+/* Unassigned job style - ALWAYS shows blue border for unassigned jobs */
+.job-card[data-handler-name=""] {
+    border-left: 12px solid #1e90ff;
+    transition: border-left 0.3s ease;
+}
+
+/* When "Not Assigned" filter is active - highlight unassigned jobs */
+.not-assigned-filter-active .job-card {
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+.not-assigned-filter-active .job-card[data-handler-name=""] {
+    opacity: 1;
+   
+}

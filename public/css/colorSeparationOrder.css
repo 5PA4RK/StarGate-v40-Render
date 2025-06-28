@@ -1,0 +1,187 @@
+/* Color Separation Order Specific Styles */
+
+
+
+
+
+h2 {
+  text-align: center; /* Center the text */
+  border-bottom: 4px solid rgb(255, 255, 255); /* White strip below the heading */
+  padding: 3px; /* Add padding around the text */
+  margin-bottom: 20px; /* Add spacing below the border */
+  
+  /* New styles */
+  color: rgb(0, 0, 0); /* Change text color to blue */
+  background-color:  #4769927f; ; /* Background color for the rectangle */
+  border-radius: 5px; /* Round edges */
+}
+
+
+
+#files-section .form-section {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+  }
+  
+  #files-section .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+  
+  #files-section .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  #files-section label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  
+  #files-section input[type="text"],
+  #files-section input[type="number"],
+  #files-section input[type="date"],
+  #files-section select,
+  #files-section textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  #files-section .checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+
+  }
+  
+  #files-section .checkbox-group input {
+    margin-right: 0.5rem;
+  }
+  
+  /* Print-specific styles */
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    
+    #colorSeparationOutput,
+    #colorSeparationOutput * {
+      visibility: visible;
+    }
+    
+    #colorSeparationOutput {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      background: white;
+      color: black;
+    }
+    
+    #colorSeparationOutput h2,
+    #colorSeparationOutput h3 {
+      color: #1a3e8c; /* Dark blue */
+    }
+    
+    .no-entry {
+      color: rgb(255, 128, 0); /* Color of the sheet */
+    }
+    
+    /* Ensure it fits on one A4 page */
+    @page {
+      size: A4;
+      margin: 1cm;
+    }
+    
+    /* Hide buttons when printing */
+    button {
+      display: none !important;
+    }
+  }
+
+  /* Add to colorSeparationOrder.css */
+.display-section {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--card-bg);
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.display-section h3 {
+    margin-top: 0;
+    color:  rgb(44, 72, 181); /* Color of the sheet */
+}
+
+.no-entry {
+    color: rgb(255, 128, 0); /* Color of the sheet */
+    font-style: italic;
+}
+
+#A4sheet {
+    background-color: rgba(60, 110, 132, 0.373); /* Color of the sheet */
+    border: 1px solid #979797; /* Optional border for clarity */
+    width: flex; /* A4 width */
+    height: flex; /* A4 height */
+    position: relative; /* Required for positioning children */
+    margin: 0 auto; /* Center the A4 sheet */
+    padding: 20px; /* Padding for the content */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slight shadow for elevation effect */
+    border-radius: 5px; /* Optional: For softer corners */
+    overflow: hidden; /* Make sure no child elements overflow */
+}
+
+/* Add to your colorSeparationOrder.css */
+.color-display-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.color-swatch {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #000;
+  margin-right: 8px;
+}
+
+/* Add this to your colorSeparationOrder.css */
+.display-section span:not(.no-entry),
+.display-section div:not(.no-entry) {
+    color: rgb(255, 128, 0); /* Orange color */
+}
+
+.display-value {
+    color: rgb(255, 128, 0); /* Orange color for all displayed values */
+}
+
+/* Keep the no-entry style as is */
+.no-entry {
+    color: rgb(255, 128, 0); /* Orange color */
+    font-style: italic;
+}
+
+#layout-placeholder {
+  position: relative; /* This allows positioning for child elements */
+  overflow: hidden; /* Prevents overflow of children elements */
+  width: 100%; /* Ensure the width fills the container */
+  max-width: 100%; /* Set max width as necessary */
+  height: auto; /* Automatic height based on content */
+  border: 1px solid #ccc; /* Optional, for better visualization */
+  padding: 10px; /* Optional, to create space around the content */
+}
+
+.layout-data-container {
+  position: absolute; /* Allows dynamic positioning if needed */
+  bottom: 10px; /* Position at the bottom, for example */
+  left: 10px; /* Adjust left positioning as needed */
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+  padding: 5px; /* Padding for the data display */
+}

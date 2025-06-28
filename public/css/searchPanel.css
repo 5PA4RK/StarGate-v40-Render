@@ -1,0 +1,290 @@
+/* Left Panel - Search Section */
+.left-panel {
+    width: 300px;
+    min-width: 200px;
+    max-width: 50%;
+    background: var(--bg-secondary);
+    padding: 20px;
+    box-shadow: 2px 0 6px var(--shadow-color);
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transform: translateX(0);
+    transition: transform var(--transition-speed) ease, 
+                box-shadow var(--transition-speed) ease;
+    z-index: 10;
+    overflow: hidden;
+}
+
+.left-panel.collapsed {
+    transform: translateX(-100%);
+    box-shadow: none;
+}
+
+
+/* Collapse Handle */
+.collapse-handle {
+    position: Fixed;
+    left: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 120px;
+    background-color: #fc7a00;
+    border-radius: 0 30px 30px 0;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.collapse-handle:hover {
+    background-color: #ff4400;
+    width: 45px;
+    left: 0px;
+}
+
+
+
+.left-panel.collapsed .panel-handle::before {
+    content: "▶";
+}
+
+/* Right Panel */
+.right-panel {
+    position: absolute;
+    left: 300px; /* Matches left panel width */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    transition: left var(--transition-speed) ease;
+    overflow-y: auto;
+}
+
+.left-panel.collapsed + .right-panel {
+    left: 0;
+}
+
+/* Container */
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Keep all your existing search section styles exactly as they are */
+.search-section {
+    margin-bottom: 20px;
+    position: relative;
+    transition: all var(--transition-speed);
+}
+
+#search-bar {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: all var(--transition-speed);
+}
+
+#search-bar:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.25);
+}
+
+#search-button {
+    right: 5px;
+    top: 5px;
+    padding: 7px 15px;
+    background: var(--primary-color);
+    color: var(--text-light);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+
+#search-button:hover {
+    background: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+#search-results {
+    flex: 1;
+    overflow-y: auto;
+    margin-top: 10px;
+    padding: 10px;
+    background: var(--bg-primary);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.search-btn {
+    width: 100%;
+    padding: 8px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.search-divider {
+    height: 1px;
+    background-color: #ddd;
+    margin: 1px 0;
+    width: 100%;
+}
+
+
+
+/* Quick Peek ============================= */
+
+/* Quick Peek Container Styles */
+.quick-peek-container {
+    background: #ffffffc7;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    overflow: hidden;
+    display: none;
+}
+
+.quick-peek-header {
+    background: #f8f9fa;
+    padding: 12px 15px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.quick-peek-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #999;
+    padding: 0 5px;
+}
+
+.close-btn:hover {
+    color: #666;
+}
+
+.quick-peek-content {
+    padding: 15px;
+}
+
+.quick-peek-content h4 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-size: 15px;
+}
+
+.quick-peek-content p {
+    margin: 6px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.quick-peek-content .status {
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.85em;
+    display: inline-block;
+}
+
+/* Quick Peek Animation for pushing down elements * ============================= */
+@keyframes pushDown {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(calc(var(--quick-peek-height) + 10px));
+      opacity: 1;
+    }
+  }
+  
+  /* Container for elements that need to be pushed down */
+  .push-down-container {
+    position: relative;
+    transition: transform 0.6s ease-out;
+    --quick-peek-height: 0px; /* This will be set by JavaScript */
+  }
+  
+  /* Quick Peek Container with animation */
+  .quick-peek-container {
+    /* Your existing styles */
+    transform: translateY(-20px);
+    opacity: 0;
+    animation: slideIn 0.3s ease-out forwards;
+    margin-bottom: 15px; /* Space for pushed elements */
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* When Quick Peek is visible */
+  .quick-peek-visible ~ .push-down-container {
+    animation: pushDown 0.6s ease-out forwards;
+  }
+
+
+  .quick-peek-image-container {
+    margin-top: 15px;
+    text-align: center;
+    padding: 2px;
+    background-color: #f8f9fa9c;
+    border-radius: 6px;
+}
+
+.quick-peek-image-container p {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.quick-peek-image-container img {
+    max-width: 100%;
+    max-height: 150px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    object-fit: contain;
+    background-color: rgba(255, 255, 255, 0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.quick-peek-image-container img:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transform: scale(1.1);
+    transition: all 0.2s ease;
+}

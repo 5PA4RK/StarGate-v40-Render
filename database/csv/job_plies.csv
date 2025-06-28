@@ -1,0 +1,6 @@
+id,job_number,position,material,finish,thickness
+3,B60705,1,PE,Transparent,60.00
+4,B60705,2,HDPE,Colored,30.00
+5,B60404,1,PET,NULL,NULL
+6,B60404,2,LDPE,Matt,25.00
+24,B61503,1,HDPE,White,25.00

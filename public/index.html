@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Order Cycle</title>
+
+    <!-- Favicon -->
+    <link rel="icon" sizes="300x300" href="IMG/Star Logo2.png" type="image/png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/stylesBags.css">
+    <link rel="stylesheet" href="css/searchPanel.css">
+    <link rel="stylesheet" href="css/initiativeAnimation.css">
+    <link rel="stylesheet" href="css/colorSeparationOrder.css">
+    <link rel="stylesheet" href="css/structure.css">
+    <link rel="stylesheet" href="css/liveStream.css">
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const toggleBtn = document.getElementById('menu-toggle-btn');
+          const dropdown = document.getElementById('helper-dropdown');
+        
+          toggleBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdown.classList.toggle('show');
+          });
+        
+          document.addEventListener('click', function(event) {
+            if (!dropdown.contains(event.target) && !toggleBtn.contains(event.target)) {
+              dropdown.classList.remove('show');
+            }
+          });
+        });
+        </script>
+    
+</head>
+<body>
+    <!-- Helper Menu (3 Dots) -->
+    <div class="helper-menu">
+        <button id="menu-toggle-btn">
+            <i class="fas fa-ellipsis-v"></i>
+        </button>
+        <div class="helper-dropdown" id="helper-dropdown">
+            <div class="helper-btn">
+                <button id="theme-btn"><i class="fas fa-moon"></i></button>
+                <span>Theme</span>
+            </div>
+            <div class="helper-btn">
+                <button id="logout-btn"><i class="fas fa-sign-out-alt"></i></button>
+                <span>Logout</span>
+            </div>
+            <div class="helper-btn">
+                <button id="lang-btn"><i class="fas fa-globe"></i></button>
+                <span>Language</span>
+            </div>
+        </div>
+    </div>
+<!-- Admin Section //////////////////////////////////////////////////////////-->
+
+<!-- Login Container (shown by default) -->
+<div id="login-container" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.378);
+">
+    <div class="login-form" style="
+        background: rgba(255, 255, 255, 0.436);
+        padding: 2rem;
+        border-radius: 8px;
+        width: 400px;
+        max-width: 90%;
+    ">
+        <h3 style="text-align: center; margin-top: 0;">Welcome to Sales Order Cycle</h3>
+        <form id="login-form">
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <label for="username" style="display: block; margin-bottom: 0.5rem;">Username</label>
+                <input type="text" id="username" name="username" required style="
+                    width: 100%;
+                    padding: 0.5rem;
+                    box-sizing: border-box;
+                ">
+            </div>
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <label for="password" style="display: block; margin-bottom: 0.5rem;">Password</label>
+                <input type="password" id="password" name="password" required style="
+                    width: 100%;
+                    padding: 0.5rem;
+                    box-sizing: border-box;
+                ">
+            </div>
+            <button type="submit" id="login-btn" style="
+                width: 100%;
+                padding: 0.75rem;
+                background: #2073a0;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+            ">Login</button>
+            <div id="login-message" class="message" style="margin-top: 1rem;"></div>
+        </form>
+    </div>
+</div>
+ <!--//////////////////////////////////////////////////////////////////-->
+
+    
+    <div id="container" class="container" style="display: none;">
+        <!-- Left Panel - Search -->
+        <aside class="left-panel">
+            <!-- Search Section -->
+            <div class="job-filters">
+                <input type="text" id="job-search" placeholder="Search jobs...">
+            </div>
+    
+            <div class="form-group">
+                <div class="status-checkboxes">
+                    <label class="checkbox-line">
+                        <input type="checkbox" id="show-mine" name="search-panel">
+                        <span>Show Mine</span>
+                    </label>
+                    
+                    <label class="checkbox-line">
+                        <input type="checkbox" id="need-action" name="search-panel">
+                        <span>Need Action</span>
+                    </label>
+
+                    <label class="checkbox-line">
+                        <input type="checkbox" id="active-only" name="search-panel">
+                        <span>Active Only</span>
+                    </label>
+
+                    <label class="checkbox-line">
+                        <input type="checkbox" id="not-assigned" name="search-panel">
+                        <span>Not Assigned</span>
+                    </label>
+                
+                </div>
+            </div>
+            
+            <div class="search-divider"></div>
+
+            <!-- Dynamic Results Section (hidden by default) -->
+            <div id="quick-peek-container" class="quick-peek-container">
+                <div class="quick-peek-header">
+                    <h3>Quick Peek</h3>
+                    <button id="close-quick-peek" class="close-btn">&times;</button>
+                </div>
+                <div id="quick-peek-content" class="quick-peek-content">
+                    <span style="color:#aaa;">No data to preview.</span>
+                </div>
+            </div>
+
+            <div class="search-divider"></div>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <h4 class="section-title">Filter By</h4>
+                
+                <div class="printing-type-filter">
+                    <label><h5>Printing Type</h5></label>
+                    <select id="printing-type">
+                        <option value="">All</option>
+                        <option value="stack">Stack Type</option>
+                        <option value="central">Central</option>
+                        <option value="unprinted">Unprinted</option>
+                    </select>
+                </div>
+                
+                <div class="product-filter">
+                    <label>Product</label>
+                    <select id="product">
+                        <option value="">All</option>
+                        <option value="center-seal">Center Seal</option>
+                        <option value="2-side">2 Side</option>
+                        <option value="3-side">3 Side</option>
+                        <option value="3-side-k">3 Side K</option>
+                        <option value="3-side-stand-up">3 Side Stand Up</option>
+                        <option value="4-side">4 Side</option>
+                        <option value="normal-bag">Normal Bag</option>
+                        <option value="chicken-bag">Chicken Bag</option>
+                        <option value="flat-bottom">Flat Bottom</option>
+                        <option value="shopping-bag">Shopping Bag</option>
+                        <option value="tShirt-bag">T-Shirt Bag</option>
+                        <option value="roll">Roll</option>
+                    </select>
+                </div>
+                
+                <div class="material-filter">
+                    <label>Printed Material</label>
+                    <select id="printed-material">
+                        <option value="">All</option>
+                        <option value="pe">PE</option>
+                        <option value="hdpe">HDPE</option>
+                        <option value="mdpe">MDPE</option>
+                        <option value="ldpe">LDPE</option>
+                        <option value="pet">PET</option>
+                        <option value="opp">OPP</option>
+                        <option value="cpp">CPP</option>
+                        <option value="metaliz">Metaliz</option>
+                        <option value="al">AL</option>
+                        <option value="ovuh">OVUH</option>
+                        <option value="paper">Paper</option>
+                    </select>
+                </div>
+                
+                <div class="plaies-filter">
+                    <label>Count of Plys</label>
+                    <select id="plys-count">
+                        <option value="">All</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+                
+                <div class="status-filter">
+                    <label>Status</label>
+                    <select id="status-filter">
+                        <option value="">All Statuses</option>
+                        <option value="Under Review">Under Review</option>
+                        <option value="Financially Approved">Financially Approved</option>
+                        <option value="Technically Approved">Technically Approved</option>
+
+                        <option value="Working on Job-Study">Working on Job-Study</option> <!-- Updated option -->
+                        <option value="Working on Softcopy'">Working on Softcopy</option> <!-- Updated option -->
+                        <option value="Need SC Approval">Need SC Approval</option> <!-- Updated option -->
+                        <option value="SC Under QC Check">SC Under QC Check</option> <!-- Updated option -->
+                        <option value="SC Checked, Need Cromalin">SC Checked, Need Cromalin</option> <!-- Updated option -->
+                        <option value="SC Checked, Need Plates">SC Checked, Need Plates</option> <!-- Updated option -->
+                        <option value="Working on Cromalin">Working on Cromalin</option> <!-- Updated option -->
+
+                        <option value="Need Cromalin Approval">Need Cromalin Approval</option> <!-- Updated option -->
+                        <option value="Working on Repro">Working on Repro</option> <!-- Updated option -->
+                        <option value="Prepress Received Plates">Prepress Received Plates</option> <!-- Updated option -->
+                        <option value="QC Received Plates">QC Received Plates</option> <!-- Updated option -->
+                        <option value="Ready for Press">Ready for Press</option> <!-- Updated option -->
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Horizontal Divider -->
+            <div class="section-divider"></div>
+            
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button id="show-history-btn" class="btn-secondary">Show History</button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="right-panel">
+            <div class="collapse-handle" id="collapse-handle" title="Click or drag to collapse/expand panel">
+                <span class="handle-icon">◄</span>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <nav class="button-container">
+                <button id="btn-sales" onclick="showSection('sales-section', 'btn-sales')">Sales</button>
+                <button id="btn-planning" onclick="showSection('planning-section', 'btn-planning')">Planning</button>
+                <button id="btn-aw" onclick="showSection('aw-section', 'btn-aw')">Prepress</button>
+                <button id="btn-qc" onclick="showSection('qc-section', 'btn-qc')">QC</button>
+                <button id="btn-finance" onclick="showSection('finance-section', 'btn-finance')">Finance</button>
+                <button id="btn-files" onclick="showSection('files-section', 'btn-files')">Full Data</button>
+                <button id="btn-results" onclick="showSection('results-section', 'btn-results')">Live Stream</button>
+            </nav>
+
+<!-- Sales Section //////////////////////////////////////////////////////////-->
+<form name="sales-form" id="sales-section" class="form-section" style="display: none;">
+    <!-- General Info Card -->
+    <div class="card">
+        <h3>General Info</h3>
+        <div class="form-group">
+            <label for="salesman">Salesman:</label>
+            <input type="text" id="salesman" readonly class="readonly-field">
+        </div>
+        
+        <div class="form-group">
+            <label for="entry-date">Entry Date:</label>
+            <input type="date" id="entry-date" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="customer-name">Customer Name:</label>
+            <input type="text" id="customer-name" placeholder="Enter customer name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="customer-code">Customer Code:</label>
+            <input type="text" id="customer-code" placeholder="Enter customer code" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="job-number">Job Number:</label>
+            <input type="text" id="job-number" placeholder="Number will be generated upon saving!" readonly>
+        </div>
+        
+        <div class="form-group">
+            <label for="job-name">Job Name:</label>
+            <input type="text" id="job-name" placeholder="Enter job name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <div class="quantity-input-group">
+                <input type="text" id="quantity" placeholder="Enter needed quantity" required>
+                <select id="quantity-unit">
+                    <option value="select-unit">Select Unit</option>
+                    <option value="kg">KG</option>
+                    <option value="bags">Bags</option>
+                    <option value="1000bags">1000 Bags</option>
+                    <option value="meters">Meters</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- AutoDraw your Bag Card -->
+    <div class="card">
+        <h3>AutoDraw your Bag</h3>
+        <select id="product-type">
+            <option value="">Select Product Type</option>
+            <option value="Center Seal">Center Seal</option>
+            <option value="2 Side">2 Side</option>
+            <option value="3 Side">3 Side</option>
+            <option value="3 Side K">3 Side K</option>
+            <option value="3 Side Stand Up">3 Side Stand Up</option>
+            <option value="4 Side">4 Side</option>
+            <option value="Normal Bag">Normal Bag</option>
+            <option value="Chicken Bag">Chicken Bag</option>
+            <option value="Flat Bottom">Flat Bottom</option>
+            <option value="Shopping Bag">Shopping Bag</option>
+            <option value="T-Shirt Bag">T-Shirt Bag</option>
+            <option value="Roll">Roll</option>
+        </select>
+        
+        <!-- Main controls container (hidden initially) -->
+        <div id="app-controls">
+            <div class="input-group" id="dimensions">
+                <div>
+                    <label for="widthInput">Width</label>
+                    <input type="number" id="widthInput" placeholder="cm" min="0" step="0.1" />
+                </div>
+                <div>
+                    <label for="heightInput">Height</label>
+                    <input type="number" id="heightInput" placeholder="cm" min="0" step="0.1" />
+                </div>
+                <div id="gusset-control">
+                    <label for="gussetInput">Gusset</label>
+                    <input type="number" id="gussetInput" placeholder="cm" min="0" step="0.1" />
+                </div>
+                
+                <!-- Common options container -->
+                <div id="common-options" class="hidden shopping-bag-option">
+                    <div class="option-group">
+                        <label>
+                            <input type="checkbox" id="twoFacesCheckbox"> Two Faces
+                        </label>
+                    </div>
+                    
+                    <!-- Shopping Bag specific options -->
+                    <div id="shopping-bag-specific" class="hidden">
+                        <div class="option-group">
+                            <label>
+                                <input type="checkbox" id="sideGussetCheckbox"> Side Gusset
+                            </label>
+                        </div>
+                        <div class="option-group">
+                            <label>
+                                <input type="checkbox" id="bottomGussetCheckbox"> Bottom Gusset
+                            </label>
+                        </div>
+                        <div class="option-group">
+                            <label>
+                                <input type="checkbox" id="holeHandle"> Hole Handle
+                            </label>
+                        </div>
+                        <div class="option-group">
+                            <label>
+                                <input type="checkbox" id="stripHandle"> Strip Handle
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Flap control -->
+                <div id="flap-control">
+                    <label for="flapInput">Flap</label>
+                    <input type="number" id="flapInput" placeholder="cm" min="0" step="0.1" />
+                </div>
+                
+                <!-- T-Shirt Bag specific options -->
+                <div id="t-shirt-bag-options" class="hidden shopping-bag-option">
+                    <div class="option-group">
+                        <label>
+                            <input type="checkbox" id="twoFacesTShirtCheckbox"> Two Faces
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- 3 Side Bag specific options -->
+                <div id="three-side-bag-options" class="hidden shopping-bag-option">
+                    <div class="option-group">
+                        <label>
+                            <input type="checkbox" id="flipDirectionCheckbox"> Rotate 90°
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Preview container -->
+        <div id="preview-container">
+            <div id="preview"></div>
+        </div>
+
+<!-- info bar -->
+<!-- Bag preview (already present) -->
+<div id="preview-window">
+    <!-- ... your drawing code ... -->
+    <!-- The info bar will be injected here by infoBar.js -->
+</div>
+
+        
+        <!-- Download buttons -->
+        <div id="download-buttons" class="download-buttons" style="display: none;">
+            <button id="downloadSvg">Download SVG</button>
+            <button id="downloadPdf">Download PDF</button>
+        </div>
+    </div> <!-- End AutoDraw your Bag Card -->
+
+    <!-- Film Structure Card -->
+    <div class="card">
+        <h3>Film Structure</h3>
+        <div class="form-group">
+            <label for="product-type">Insert Your Ply(s):</label>
+            <div class="form-group">
+                <button id="add-ply-btn" onclick="addPLYField()">Add Ply(s)</button>
+                <div id="ply-fields"></div> <!-- PLY fields will be inserted here -->
+            </div>
+        </div>
+
+        <div class="search-divider"></div>
+        
+        <h3>Core Spics</h3>
+        <div class="form-group">
+            <label for="inner-diameter">Inner Diameter:</label>
+            <input type="text" id="inner-diameter" placeholder="Enter Inner Diameter" required>
+        </div>
+                
+        <div class="form-group">
+            <label for="outer-diameter">Outer Diameter:</label>
+            <input type="text" id="outer-diameter" placeholder="Enter Outer Diameter" required>
+        </div>
+    </div> <!-- End Film Structure Card -->
+
+    <!-- Press Info Card -->
+    <div class="card">
+        <h3>Press Info</h3>
+        <div class="form-group">
+            <label for="press-type">Press Type:</label>
+            <select id="press-type">
+                <option value="">Select Press Type</option>
+                <option value="Central Drum">Central Drum</option>
+                <option value="Stack Type">Stack Type</option>
+                <option value="Unprinted">Unprinted</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="print-orientation">Print Orientation:</label>
+            <select id="print-orientation">
+                <option value="">Select Orientation</option>
+                <option value="Surface">Surface</option>
+                <option value="Reverse">Reverse</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="unwinding-direction">Unwinding Direction:</label>
+            <select id="unwinding-direction">
+                <option value="">Select Direction</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+            </select>
+        </div>
+    </div> <!-- End Press Info Card -->
+
+<!-- Sales Status Card -->
+<div class="card">
+    <h3>Sales Status</h3>
+    <div class="form-group">
+        <div class="sales-status-checkboxes">
+            <label class="checkbox-line">
+                <input type="checkbox" id="financial-approval">
+                <span>Financial Approval</span>
+            </label>
+        
+            <label class="checkbox-line">
+                <input type="checkbox" id="technical-approval">
+                <span>Technical Approval</span>
+            </label>
+
+            <label class="checkbox-line">
+                <input type="checkbox" id="softcopy-approval">
+                <span>Soft Copy Approval</span>
+            </label>
+
+            <label class="checkbox-line">
+                <input type="checkbox" id="on-hold">
+                <span>On Hold</span>
+            </label>
+        </div>
+    </div>
+</div><!-- End Sales Status Card -->
+
+    <!-- Comments Card -->
+    <div class="card">
+        <h3>Comments</h3>
+        <div class="form-group">
+            <div id="comments" class="comment-box" contenteditable="true" 
+                placeholder="Enter Additional Notes here..." spellcheck="true"></div>
+            <div class="char-count">0/1000 characters</div>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <button id="save-Sales-btn">Save & Send Sales Data</button>
+    </div>
+</form> 
+ <!--End of Sales Section ////////////////////////////////////////////////////-->
+<!-- Planning Section //////////////////////////////////////////////////////////-->
+<div class="form-section" id="planning-section" style="display: none;">
+
+    <!-- Machine Card -->
+    <div class="card">
+        <h3>Machine</h3>
+        <div class="form-group">
+            <select id="machine-select">
+                <option value="" disabled selected>Select Machine</option>
+                <option value="Stack 204">Stack 204</option>
+                <option value="Stack 206">Stack 206</option>
+                <option value="Centarl 207">Centarl 207</option>
+                <option value="Centarl 208">Centarl 208</option>
+                <option value="Centarl 210">Centarl 210</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Layout Configuration Card -->
+    <div class="card">
+        <h3>Layout Configuration</h3>
+        
+        <!-- Bag Options Section -->
+
+        <div id="planning-bag-options" style="display: none;">
+            <h4>Bag/Layout Options</h4>
+            <div class="form-group checkbox-group">
+                <!-- Flip Direction Checkbox (for 3 Side only) -->
+                <div id="flip-direction-option" class="checkbox-line" style="display: none;">
+                    <input type="checkbox" id="planning-flip-direction">
+                    <label for="planning-flip-direction">Rotate 90°</label>
+                </div>
+                
+                <!-- Add Lines Checkbox (for all except T-shirt) -->
+                <div id="add-lines-option" class="checkbox-line" style="display: none;">
+                    <input type="checkbox" id="planning-add-lines">
+                    <label for="planning-add-lines">Add Lines</label>
+                </div>
+                
+                <!-- New Machine Checkbox (for Flat Bottom only) -->
+                <div id="new-machine-option" class="checkbox-line" style="display: none;">
+                    <input type="checkbox" id="planning-new-machine">
+                    <label for="planning-new-machine">New Machine</label>
+                </div>
+                
+                <!-- Add Stagger Checkbox (for all except T-shirt) -->
+                <div id="add-stagger-option" class="checkbox-line" style="display: none;">
+                    <input type="checkbox" id="planning-add-stagger">
+                    <label for="planning-add-stagger">Add Stagger</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="layout-wrapper">
+            <!-- Preview Window -->
+            <div class="preview-window" id="autodraw-preview">
+                <svg width="100%" height="200" viewBox="0 0 200 100" id="autodraw-svg" preserveAspectRatio="xMidYMid meet">
+                    <rect x="10" y="10" width="180" height="80" fill="none" stroke="#ccc" stroke-dasharray="5,5"/>
+                    <text x="100" y="55" text-anchor="middle" fill="#666">Preview will appear here</text>
+                </svg>
+            </div>
+            
+            <!-- Vertical Controls -->
+            <div class="vertical-controls rotated-group">
+                <button id="add-behind" class="btn btn-add rotated">
+                    <svg width="18" height="18" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5 12h14" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    Add Vertically
+                </button>
+                <div class="control-spacer"></div>
+                <button id="remove-vertical" class="btn btn-remove rotated">
+                    <svg width="18" height="18" viewBox="0 0 24 24">
+                        <path d="M12 5v14" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    Remove Vertically
+                </button>
+            </div>
+        </div>
+        
+        <!-- Horizontal Controls -->
+        <div class="horizontal-controls">
+            <button id="add-beside" class="btn btn-add">
+                <svg width="18" height="18" viewBox="0 0 24 24">
+                    <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                Add Horizontally
+            </button>
+            <button id="remove-horizontal" class="btn btn-remove">
+                <svg width="18" height="18" viewBox="0 0 24 24">
+                    <path d="M5 12h14" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                Remove Horizontally
+            </button>
+        </div>
+        
+        <!-- Hidden counters -->
+        <input type="hidden" id="horizontal-count" value="1">
+        <input type="hidden" id="vertical-count" value="1">
+    </div>
+    <!-- End of Layout Configuration Card -->
+
+<!-- Comments Card -->
+<div class="card">
+    <h3>Comments</h3>
+    <div class="form-group">
+        <div id="planning-comments" class="comment-box" contenteditable="true" placeholder="Enter Additional Notes here..." spellcheck="true"></div>
+        <div class="char-count">0/1000 characters</div>
+    </div>
+</div>
+    
+    <div class="form-group">
+        <button id="save-planning-btn">Save & Send Planning Data</button>
+        
+        <!-- SVG Download Button -->
+        <button id="download-svg-btn" style="position: fixed; bottom: 20px; right: 20px; padding: 10px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            Download SVG
+        </button>
+
+        <script>
+        document.getElementById('download-svg-btn').addEventListener('click', function() {
+            const svg = document.getElementById('autodraw-svg');
+            if (!svg) {
+                alert('SVG preview not found!');
+                return;
+            }
+
+            // Serialize SVG
+            const serializer = new XMLSerializer();
+            let svgString = serializer.serializeToString(svg);
+            
+            // Add XML header
+            svgString = '<?xml version="1.0" standalone="no"?>\n' + svgString;
+            
+            // Create download
+            const blob = new Blob([svgString], {type: 'image/svg+xml'});
+            const url = URL.createObjectURL(blob);
+            
+            // Create and trigger download
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'bag-preview-' + new Date().toISOString().slice(0,10) + '.svg';
+            document.body.appendChild(link);
+            link.click();
+            
+            // Cleanup
+            setTimeout(() => {
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }, 100);
+        });
+        </script>
+    </div>
+</div>
+ <!--End of Planning Section ////////////////////////////////////////////////////-->        
+<!-- AW Section //////////////////////////////////////////////////////////-->
+<div class="form-section" id="aw-section" style="display: none;">
+    <!-- Add Colors Card -->
+    <div class="card">
+        <span id="color-count" class="color-count">0</span>
+        <h3>Add Colors</h3>
+        <div class="form-group">
+            <button id="add-color-btn">Add Color</button>
+            <div id="color-fields-container" class="color-fields-container">
+                <!-- Color fields will be added here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Upload SC Approval Card -->
+    <div class="card">
+        <h3>Upload SC Approval</h3>
+        <input type="file" id="upload-image" accept="image/*" style="display: none;">
+        <div id="image-preview-container" style="margin-top: 15px;">
+            <img id="uploadedImage" src="" alt="Uploaded Image" style="max-width: 100%; display: none;"/>
+            <button id="custom-upload-btn" onclick="document.getElementById('upload-image').click();">Upload Image</button>
+            <button id="remove-image-btn" style="display: none; margin-left: 10px;" onclick="removeUploadedImage()">Remove Image</button>
+        </div>
+    </div>
+
+        <!-- Prepress Suppliers Card -->
+        <div class="card">
+            <h3>Supplier</h3>
+            <div class="form-group">
+                <div class="supplier-checkboxes">
+                    <label class="checkbox-line">
+                        <input type="checkbox" id="status-elite" name="supplier">
+                        <span>Elite</span>
+                    </label>
+        
+                    <label class="checkbox-line">
+                        <input type="checkbox" id="status-tarkhan" name="supplier">
+                        <span>Tarkhan</span>
+                    </label>   
+                </div>
+            </div>
+        </div>
+
+<!-- Prepress Status Card -->
+<div class="card">
+    <h3>Prepress Status</h3>
+    <div class="form-group">
+        <div class="aw-checkboxes">
+            <label class="checkbox-line">
+                <input type="checkbox" id="aw-sc-approval" name="sc_approval">
+                <span>Send SC to Sales</span>
+            </label>   
+          <!-- removed checkbox (no need for it) <label class="checkbox-line">
+                <input type="checkbox" id="aw-sc-qc" name="sc_qc">
+                <span>Send SC to QC (may be better to remove it)</span>
+            </label> -->
+            
+            <label class="checkbox-line">
+                <input type="checkbox" id="aw-working-cromalin" name="working_cromalin">
+                <span>Ask Supplier for Cromalin</span>
+            </label>
+            <label class="checkbox-line">
+                <input type="checkbox" id="aw-cromalin-approval" name="cromalin_approval">
+                <span>Cromalin Approval</span>
+            </label>
+            <label class="checkbox-line">
+                <input type="checkbox" id="aw-working-repro" name="working_repro">
+                <span>Ask Supplier for Repro</span>
+            </label>
+            <label class="checkbox-line">
+                <input type="checkbox" id="aw-plates-received" name="plates_received">
+                <span>Plates are Received</span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- Comments Card -->
+<div class="card">
+    <h3>Comments</h3>
+    <div class="form-group">
+        <div id="prepress-comments" class="comment-box" contenteditable="true" placeholder="Enter Additional Notes here..." spellcheck="true"></div>
+        <div class="char-count">0/1000 characters</div>
+    </div>
+</div>
+
+    <!-- Save Button -->
+    <div class="form-group">
+        <button id="save-aw-btn">Save & Send Prepress Data</button>
+    </div>
+</div>
+<!--End of AW Section ////////////////////////////////////////////////////-->
+<!-- QC Section //////////////////////////////////////////////////////////-->
+<div class="form-section" id="qc-section" style="display: none;">
+    <div class="card">
+        <h3>Quality Control</h3>
+        <div class="form-group">
+            <div class="status-checkboxes">
+                <label class="checkbox-line">
+                    <input type="checkbox" id="qc-sc-checked" name="qc-status">
+                    <span>SC Checked</span>
+                </label>
+                
+                <label class="checkbox-line">
+                    <input type="checkbox" id="qc-cromalin-checked" name="qc-status">
+                    <span>Cromalin Checked</span>
+                </label>
+
+                <label class="checkbox-line">
+                    <input type="checkbox" id="qc-plates-received" name="qc-status">
+                    <span>QC Received Plates</span>
+                </label>
+                <label class="checkbox-line">
+                    <input type="checkbox" id="qc-plates-checked" name="qc-status">
+                    <span>QC Checked Plates</span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div id="qc-comments" class="comment-box" contenteditable="true" 
+                 placeholder="Enter QC comments here..." spellcheck="true"></div>
+            <div class="char-count">0/1000 characters</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button id="save-qc-btn">Save & Send QC Data</button>
+    </div>
+</div>
+<!--End of QC Section ////////////////////////////////////////////////////-->
+<!-- Finance Section //////////////////////////////////////////////////////////-->
+            <div class="form-section" id="finance-section" style="display: none;">
+                  <!-- Content will be added here -->
+            </div>
+<!--End of Finance Section ////////////////////////////////////////////////////-->
+<!-- Full Data Section //////////////////////////////////////////////////////////-->
+<div class="form-section" id="files-section" style="display: none;">
+    <!-- Content will be injected here -->
+</div>
+<!--End of Full Data Section ////////////////////////////////////////////////////-->
+<!-- Live Stream Section //////////////////////////////////////////////////////////-->
+<div class="form-section" id="results-section" style="display: none;">
+    <div class="card">  <!-- Added card wrapper -->
+        <h3>Live Stream</h3>  <!-- Consistent heading style -->
+        
+
+
+
+        <div id="job-stream" class="job-list">  <!-- Changed class to job-list -->
+            <!-- Jobs will be inserted here dynamically -->
+        </div>
+    </div>
+</div>
+<!--End of Live Stream Section ////////////////////////////////////////////////////-->
+        </main>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal" style="display: none;">
+        <span class="close-modal" id="closeModal">×</span>
+        <img class="modal-content" id="modalImage" alt="Selected Image">
+        <div id="caption" class="caption"></div>
+    </div>
+
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <!-- JavaScript Files -->
+    <script src="js/auth.js" defer></script>
+    <script src="js/liveStream.js" defer></script>
+    <script src="js/main.js" defer></script>
+    <script src="js/panelControl.js" defer></script>
+    <script src="js/plyFields.js" defer></script>
+    <script src="js/colorFields.js" defer></script>
+    <script src="js/alertSystem.js" defer></script>
+    <script src="js/aw.js" defer></script>
+    <script src="js/planningLayout.js" defer></script>
+    <script src="js/infoTable0.js"></script>
+    <script src="js/colorSeparationOrder0.js"></script>
+    <script src="js/colorSeparationOrder.js"></script>
+    <script src="js/status.js" defer></script>
+    <script src="js/infoBar.js" defer></script>
+    <script src="js/statusWorkflow.js" defer></script>
+
+    <!-- Server scrips -->
+    <script src="js/formHandlers.js"></script>
+    <script src="server/server.js"></script>
+    <script src="server/database.js"></script>
+
+
+    <!-- Bag Scripts -->
+    <script src="js/Bags/centerSealBag.js"></script>
+    <script src="js/Bags/twoSide.js"></script>
+    <script src="js/Bags/threeSide.js"></script>
+    <script src="js/Bags/threeSideK.js"></script>
+    <script src="js/Bags/threeSideStandUp.js"></script>
+    <script src="js/Bags/fourSide.js"></script>
+    <script src="js/Bags/normalBag.js"></script>
+    <script src="js/Bags/chickenBag.js"></script>
+    <script src="js/Bags/flatBottom.js"></script>
+    <script src="js/Bags/shoppingBag.js"></script>
+    <script src="js/Bags/shoppingBagHandle.js"></script>
+    <script src="js/Bags/tShirtBag.js"></script>
+    <script src="js/Bags/Roll.js"></script>
+    <script src="js/Bags/mainBags.js"></script>
+    
+
+
+    <!-- Search Script -->
+    <script src="js/searchPanel.js"></script>
+
+    <script>
+        // --- Section Navigation ---
+        function showSection(sectionId, buttonId) {
+            // Hide all sections
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.style.display = 'none';
+            });
+    
+            // Show the selected section
+            const section = document.getElementById(sectionId);
+            if (section) section.style.display = 'block';
+    
+            // Update button states
+            document.querySelectorAll('.button-container button').forEach(button => {
+                button.classList.toggle('pressed', button.id === buttonId);
+            });
+        }
+    
+        // --- Initialization ---
+        function initializeNavigation() {
+            // Show Live Stream by default
+            showSection('results-section', 'btn-results');
+    
+            // Dispatch custom event to trigger live stream loading on page load
+            document.dispatchEvent(new Event('liveStreamSectionShown'));
+    
+            // Set today's date in entry-date field (if present)
+            const entryDate = document.getElementById('entry-date');
+            if (entryDate) {
+                entryDate.value = new Date().toISOString().split('T')[0];
+            }
+    
+            // Add click handler for Live Stream tab
+            const btnResults = document.getElementById('btn-results');
+            if (btnResults) {
+                btnResults.addEventListener('click', function() {
+                    showSection('results-section', 'btn-results');
+                    document.dispatchEvent(new Event('liveStreamSectionShown'));
+                });
+            }
+        }
+    
+        // Ensure this script runs after all elements are loaded
+        document.addEventListener('DOMContentLoaded', initializeNavigation);
+    </script>
+    <!-- Place this outside all other containers -->
+    <div id="notification-container" class="notification-container"></div>
+    </body>
+    </html>

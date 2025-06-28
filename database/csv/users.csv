@@ -1,0 +1,24 @@
+id,username,password,group_id,full_name,email,Department,created_at
+1,admin,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,1,Administrator,sales.order.sys@taweelholdings.com,NULL,2025-05-10 16:10:04
+2,mahmoud_khadary,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,2,Mahmoud Khadary,designer3@taweelholdings.com,NULL,2025-05-10 16:10:39
+3,raed_tanbouz,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,2,Raed Tanbouz,Designer1@taweelholdings.com,NULL,2025-05-10 16:10:39
+4,aref_wafaay,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,2,Aref Wafaay,designer2@taweelholdings.com,NULL,2025-05-10 16:10:39
+5,hashem_a_shaker,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,1,Hashem Abou Shaker,h.abushaker@taweelholdings.com,NULL,2025-05-10 16:10:39
+6,faraj_taweel,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,1,Faraj Al-Taweel,faraj.taweel@taweelholdings.com,NULL,2025-05-10 16:10:39
+7,kais_taweel,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,1,Kais Al-Taweel,kais.taweel@taweelholdings.com,NULL,2025-05-10 16:10:39
+8,hatem_taweel,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,1,Hatem Al-Taweel,htaweel@taweelholdings.com,NULL,2025-05-10 16:10:39
+9,jad_taweel,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,1,Jad Al-Taweel,NULL,NULL,2025-05-10 16:10:39
+10,saif_taweel,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,1,Saif Al-Taweel,staweel@taweelholdings.com,NULL,2025-05-10 16:10:39
+11,ebtihal,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,3,Ebtihal,qchse.jsp@taweelholdings.com,NULL,2025-05-10 16:10:39
+12,raghad,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,3,Raghad,qclab.jsp@taweelholdings.com,NULL,2025-05-10 16:10:39
+13,zakaria,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,3,Zakaria,qa.jsp@taweelholdings.com,NULL,2025-05-10 16:10:39
+14,ahmed_syam,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,3,Ahmed-Syam,qcinspector.jsp@taweelholdings.com,NULL,2025-05-10 16:10:39
+15,bahaa,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,4,Bahaa,bshamalti@taweelholdings.com,NULL,2025-05-10 16:10:39
+16,qasem,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,4,Qasem,planner.jsp@taweelholdings.com,NULL,2025-05-10 16:10:39
+17,amjad_samara,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,5,Amjad,amjad.samara@taweelholdings.com,NULL,2025-05-10 16:10:39
+18,Alaa_khalil,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,5,Alaa Al-Allary,akhalil@taweelholdings.com,NULL,2025-05-10 16:10:39
+19,Rami_qatani,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,5,Rami,r.qatani@taweelholdings.com,NULL,2025-05-10 16:10:39
+20,Duha,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,5,Duha,duha.obidy@taweelholdings.com,NULL,2025-05-10 16:10:39
+21,mahmoud_aref,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,6,Mahmoud Aref,NULL,NULL,2025-05-10 16:10:39
+22,mohammed_samara,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,7,Mohammed Samara,NULL,NULL,2025-05-10 16:10:39
+23,maintenance,$2a$10$N9qo8uLOickgx2ZMRZoMy.MH/r7r6LJ5Lf2CJQH/.8Z3z2YdWOuE6,8,Maintenance User,NULL,NULL,2025-06-09 09:02:58

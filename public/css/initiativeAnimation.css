@@ -1,0 +1,122 @@
+/* initiativeAnimation.css */
+
+/* Animation Keyframes with bounce effects */
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  80% {
+    transform: translateX(5%);
+    opacity: 1;
+  }
+  90% {
+    transform: translateX(-2%);
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  80% {
+    transform: translateX(-5%);
+    opacity: 1;
+  }
+  90% {
+    transform: translateX(2%);
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromTop {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  80% {
+    transform: translateY(5%);
+    opacity: 1;
+  }
+  90% {
+    transform: translateY(-2%);
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulseGrow {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Element Animations - Modified to work with collapse */
+.left-panel {
+  animation: slideInFromLeft 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+  animation-fill-mode: forwards;
+}
+
+.right-panel {
+  animation: slideInFromRight 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+  animation-fill-mode: forwards;
+}
+
+/* Delayed navigation panel animation */
+.button-container {
+  animation: slideInFromTop 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0.22s forwards;
+  opacity: 0;
+}
+
+/* Modified left-panel styles to ensure collapse works */
+.left-panel {
+  transition: 
+    transform var(--transition-speed) ease, 
+    box-shadow var(--transition-speed) ease,
+    width var(--transition-speed) ease;
+}
+
+.left-panel.collapsed {
+  transform: translateX(-100%);
+  box-shadow: none;
+  animation: none !important;
+}
+
+/* Panel Handle - Ensure it stays visible */
+.panel-handle {
+  animation: none !important;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

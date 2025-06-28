@@ -1,0 +1,19 @@
+id,department,status_name,display_name
+1,sales,financial_approval,Financially Approved
+2,sales,technical_approval,Technically Approved
+3,sales,on_hold,On Hold
+4,prepress,sc_sent_to_sales,Need SC Approval
+5,prepress,sc_sent_to_qc,SC Under QC Check
+6,prepress,working_on_cromalin,Working on Cromalin
+7,prepress,cromalin_qc_check,Cromalin Under QC Check
+8,prepress,cromalin_ready,Need Cromalin Approval
+9,prepress,working_on_repro,Working on Repro
+10,prepress,ready_for_press,Ready for Press
+11,qc,sc_checked,SC Checked
+12,qc,cromalin_checked,Cromalin Checked
+13,qc,qc_plates_received,QC Received Plates
+14,qc,plates_checked,Plates Checked
+16,planning,working_on_softcopy,Working on softcopy
+17,qc,sc_checked_cromalin,SC Checked, Need Cromalin
+18,qc,sc_checked_plates,SC Checked, Need Plates
+19,prepress,prepress_plates_received,Prepress Received Plates
