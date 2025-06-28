@@ -1,4 +1,7 @@
+// Load environment variables FIRST
 require('dotenv').config();
+
+
 const express = require('express');
 const mysql = require('mysql2/promise');
 const bodyParser = require('body-parser');
@@ -14,7 +17,7 @@ const upload = multer({
 });
 
 const app = express();
-const PORT = process.env.PORT || 7004;
+const PORT = process.env.PORT;
 
 // Middleware
 app.use(cors());
@@ -24,62 +27,46 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Database connection pool
 const pool = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'stargate_v33',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT,
     waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
-});
+    connectionLimit: 10
+  });
 
 // cleanup function
-const cleanOldUploads = async () => {
+// Define cleanup function BEFORE using it
+async function cleanOldUploads() {
     try {
-        const uploadDir = path.join(__dirname, '../public/uploads');
-        
-        // 1. Get all files currently referenced in database
-        const [usedFiles] = await pool.query('SELECT sc_image_url FROM prepress_data WHERE sc_image_url IS NOT NULL');
-        
-        // Create Set of just filenames (no paths)
-        const usedFilenames = new Set();
-        usedFiles.forEach(file => {
-            if (file.sc_image_url) {
-                const filename = path.basename(file.sc_image_url);
-                if (filename) usedFilenames.add(filename);
-            }
-        });
-
-        // 2. Scan uploads directory
-        if (!fs.existsSync(uploadDir)) {
-            console.log('Uploads directory does not exist, creating...');
-            fs.mkdirSync(uploadDir, { recursive: true });
-            return;
-        }
-
-        const files = fs.readdirSync(uploadDir);
-        
-        // 3. Delete orphaned files
-        let deletedCount = 0;
-        files.forEach(file => {
-            if (!usedFilenames.has(file)) {
-                try {
-                    fs.unlinkSync(path.join(uploadDir, file));
-                    deletedCount++;
-                    console.log(`Deleted orphaned file: ${file}`);
-                } catch (err) {
-                    console.error(`Error deleting file ${file}:`, err.message);
-                }
-            }
-        });
-
-        console.log(`Cleanup complete. Deleted ${deletedCount} orphaned files.`);
-
-    } catch (error) {
-        console.error('Error during uploads cleanup:', error.message);
+      const connection = await pool.getConnection();
+      // Your cleanup logic here
+      connection.release();
+    } catch (err) {
+      console.error('Cleanup skipped - DB error:', err.message);
     }
-};
+  }
 
+// Test route
+app.get('/simple-test', (req, res) => {
+    res.send('Simple test successful');
+  });
+
+  // Start server
+const server = app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on port ${PORT}`);
+    cleanOldUploads(); // Run cleanup after server starts
+  });
+
+  // Error handling
+server.on('error', (err) => {
+    console.error('Server error:', err);
+  });
+  
+  process.on('unhandledRejection', (err) => {
+    console.error('Unhandled rejection:', err);
+  });
 // Modify the interval to run every 6 hours instead of daily
 const CLEANUP_INTERVAL = 6 * 60 * 60 * 1000; // 6 hours
 
